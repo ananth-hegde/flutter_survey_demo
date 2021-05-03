@@ -40,7 +40,6 @@ class Survey extends HiveObject{
     this.otherFuelUsage,
     this.otherFuelName,
   );
-
   @override
   String toString(){
     return this.name+

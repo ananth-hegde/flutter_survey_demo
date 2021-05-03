@@ -38,6 +38,7 @@ class _SurveySecondPageState extends State<SurveySecondPage> {
               Expanded(
                 flex: 1,
                 child: SingleChildScrollView(
+                  
                   child: Form(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),

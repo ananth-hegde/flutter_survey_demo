@@ -36,57 +36,59 @@ class _SurveyFirstPageState extends State<SurveyFirstPage> {
             children: [
               Expanded(
                 flex: 1,
-                child: Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Observer(
-                      builder: (_) => Wrap(
-                        alignment: WrapAlignment.center,
-                        children: [
-                          MandatoryTextField(
-                              store.setName,
-                              'Name',
-                              store.error.nameError,
-                              'Name (Household Representative)'),
-                          MandatoryTextField(
-                              store.setHouseholdSize,
-                              'Household Size',
-                              store.error.householdSizeError,
-                              'Total number of members in family',
-                              TextInputType.number),
-                          MandatoryTextField(
-                              store.setAdultCount,
-                              'Adult',
-                              store.error.adultCountError,
-                              'Total number of adult members in family',
-                              TextInputType.number),
-                          MandatoryTextField(
-                              store.setChildCount,
-                              'Children',
-                              store.error.childCountError,
-                              'Total number of child members in family',
-                              TextInputType.number),
-                          MandatoryTextField(
-                              store.setPhoneNumber,
-                              'Phone Number',
-                              store.error.phoneNumberError,
-                              'Phone Number',
-                              TextInputType.number,
-                              9,
-                              MaxLengthEnforcement.enforced),
-                          MandatoryTextField(store.setAddress, 'Address',
-                              store.error.addressError, 'Enter Full Address'),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (store.validateFirstPage() == true) {
-                                Navigator.pushNamed(context, SurveySecondPage.routeName);
-                              } else {
-                                setState(() {});
-                              }
-                            },
-                            child: Text('Next'),
-                          ),
-                        ],
+                child: SingleChildScrollView(
+                  child: Form(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Observer(
+                        builder: (_) => Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            MandatoryTextField(
+                                store.setName,
+                                'Name',
+                                store.error.nameError,
+                                'Name (Household Representative)'),
+                            MandatoryTextField(
+                                store.setHouseholdSize,
+                                'Household Size',
+                                store.error.householdSizeError,
+                                'Total number of members in family',
+                                TextInputType.number),
+                            MandatoryTextField(
+                                store.setAdultCount,
+                                'Adult',
+                                store.error.adultCountError,
+                                'Total number of adult members in family',
+                                TextInputType.number),
+                            MandatoryTextField(
+                                store.setChildCount,
+                                'Children',
+                                store.error.childCountError,
+                                'Total number of child members in family',
+                                TextInputType.number),
+                            MandatoryTextField(
+                                store.setPhoneNumber,
+                                'Phone Number',
+                                store.error.phoneNumberError,
+                                'Phone Number',
+                                TextInputType.number,
+                                9,
+                                MaxLengthEnforcement.enforced),
+                            MandatoryTextField(store.setAddress, 'Address',
+                                store.error.addressError, 'Enter Full Address'),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (store.validateFirstPage() == true) {
+                                  Navigator.pushNamed(context, SurveySecondPage.routeName);
+                                } else {
+                                  setState(() {});
+                                }
+                              },
+                              child: Text('Next'),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
