@@ -100,12 +100,12 @@ class _SurveyThirdPageState extends State<SurveyThirdPage> {
                               ),
                             ),
                             ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async{
                               if (store.validateThirdPage() == true) {
                                 //TODO: Implement connectivity check and push online
-                                
-                                store.saveSurveyToHive();
-                                Navigator.pushReplacementNamed(context, HomePage.routeName);
+                                await store.checkConnectionAndProceed();
+                                if(store.pushStatus==true)
+                                  Navigator.pushReplacementNamed(context, HomePage.routeName);
                                 
                               } else {
                                 setState(() {});

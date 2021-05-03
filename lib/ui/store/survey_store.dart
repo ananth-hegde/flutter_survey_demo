@@ -3,6 +3,9 @@ import 'package:mobx/mobx.dart';
 import '../../models/local/survey_model.dart';
 import '../../repository/survey_storage.dart';
 import 'dart:io';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 part 'survey_store.g.dart';
 
@@ -121,6 +124,8 @@ abstract class _SurveyStore with Store{
    String? otherFuelName;
 
   @observable
+  bool pushStatus = true;
+  @observable
   bool showStopUsageReason = true;
   _SurveyStore(){
     error = SurveyStoreErrorState();
@@ -131,6 +136,45 @@ abstract class _SurveyStore with Store{
     name = value;
   }
 
+
+  @action
+  void resetAll(){
+    name='';
+    address='';
+    householdSize=0;
+    adultCount=-1;
+    childCount=-1;
+    phoneNumber='';
+    stoveId='';
+    stoveImage = null;
+    dateOfInstallation = null;
+    usesProjectCookstove = false;
+    stopUsageReason = null;
+    usesProjectRegularly = null;
+    stoveCondition = null;
+    numberOfProjectMeals = null;
+    usesTraditionalCookstove = false;
+    numberOfTraditionalMeals = null;
+    usesOtherStove = false;
+    numberOfOtherMeals = null;
+    numberOfDaysPerWeek = null;
+    photoOfOtherStove = null;
+    usesCharcoal = false;
+    usesWood = false;
+    usesKerosene = false;
+    usesLpg = false;
+    usesCoal = false;
+    usesElectricity = false;
+    usesOtherFuel = false;
+    charcoalUsage = null;
+    woodUsage = null;
+    lpgUsage = null;
+    keroseneUsage = null;
+    coalUsage = null;
+    electricityUsage = null;
+    otherFuelUsage = null;
+    otherFuelName = null;
+  }
   @action setUniqueStoveId(String value){
     stoveId = value;
   }
@@ -179,7 +223,6 @@ abstract class _SurveyStore with Store{
   void setUsesProjectCookStove(bool newState){
     usesProjectCookstove = newState; 
     showStopUsageReason = false;
-    print(usesProjectCookstove);
   }
 
   @action
@@ -365,10 +408,41 @@ abstract class _SurveyStore with Store{
     return error.hasNoErrors();
   }
 
-  void saveSurveyToHive(){
+  @action
+  void saveSurveyToHive(Survey s){
+    surveyStorage.addSurveyToHive(s);
+  }
+
+  @action
+  Future<bool> pushSurveyToCloud(Survey s) async{
+    http.Response pushResult = await surveyStorage.addSurveyToApi(s);
+    print(pushResult.statusCode);
+    print(pushResult.body);
+    if(pushResult.statusCode!=200)
+    {
+      return false;
+    }
+    return true;
+  }
+
+  @action
+  Future<void> checkConnectionAndProceed() async{
+    
     DateTime installDate = dateOfInstallation??DateTime.now();
+    bool result = await DataConnectionChecker().hasConnection;
     Survey s = Survey(name, householdSize, adultCount, childCount, phoneNumber, address, stoveId, stoveImage?.path, DateFormat('dd-MMMM-YYYY').format(installDate).toString(), usesProjectCookstove, usesProjectRegularly, stopUsageReason, stoveCondition, numberOfProjectMeals, usesTraditionalCookstove, numberOfTraditionalMeals, usesOtherStove, numberOfOtherMeals, numberOfDaysPerWeek, photoOfOtherStove?.path.toString(), usesCharcoal, usesWood, usesLpg, usesKerosene, usesCoal, usesElectricity, usesOtherFuel, charcoalUsage, woodUsage, lpgUsage, keroseneUsage, coalUsage, electricityUsage, otherFuelUsage, otherFuelName);
-    surveyStorage.addSurvey(s);
+    if(result == true)
+    {
+      if(await pushSurveyToCloud(s)) {}
+      else{
+        saveSurveyToHive(s);
+        pushStatus = false;
+      }
+      
+    }
+    else{
+      saveSurveyToHive(s);
+    }
   }
 }
 

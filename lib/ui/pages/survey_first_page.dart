@@ -18,6 +18,7 @@ class _SurveyFirstPageState extends State<SurveyFirstPage> {
   @override
   void didChangeDependencies() {
     store = GetIt.I.get<SurveyStore>();
+    store.resetAll();
     store.error = SurveyStoreErrorState();
     super.didChangeDependencies();
   }

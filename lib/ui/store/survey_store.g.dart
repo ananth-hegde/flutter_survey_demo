@@ -562,6 +562,21 @@ mixin _$SurveyStore on _SurveyStore, Store {
     });
   }
 
+  final _$pushStatusAtom = Atom(name: '_SurveyStore.pushStatus');
+
+  @override
+  bool get pushStatus {
+    _$pushStatusAtom.reportRead();
+    return super.pushStatus;
+  }
+
+  @override
+  set pushStatus(bool value) {
+    _$pushStatusAtom.reportWrite(value, super.pushStatus, () {
+      super.pushStatus = value;
+    });
+  }
+
   final _$showStopUsageReasonAtom =
       Atom(name: '_SurveyStore.showStopUsageReason');
 
@@ -578,6 +593,23 @@ mixin _$SurveyStore on _SurveyStore, Store {
     });
   }
 
+  final _$pushSurveyToCloudAsyncAction =
+      AsyncAction('_SurveyStore.pushSurveyToCloud');
+
+  @override
+  Future<bool> pushSurveyToCloud(Survey s) {
+    return _$pushSurveyToCloudAsyncAction.run(() => super.pushSurveyToCloud(s));
+  }
+
+  final _$checkConnectionAndProceedAsyncAction =
+      AsyncAction('_SurveyStore.checkConnectionAndProceed');
+
+  @override
+  Future<void> checkConnectionAndProceed() {
+    return _$checkConnectionAndProceedAsyncAction
+        .run(() => super.checkConnectionAndProceed());
+  }
+
   final _$_SurveyStoreActionController = ActionController(name: '_SurveyStore');
 
   @override
@@ -586,6 +618,17 @@ mixin _$SurveyStore on _SurveyStore, Store {
         name: '_SurveyStore.setName');
     try {
       return super.setName(value);
+    } finally {
+      _$_SurveyStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetAll() {
+    final _$actionInfo = _$_SurveyStoreActionController.startAction(
+        name: '_SurveyStore.resetAll');
+    try {
+      return super.resetAll();
     } finally {
       _$_SurveyStoreActionController.endAction(_$actionInfo);
     }
@@ -999,6 +1042,17 @@ mixin _$SurveyStore on _SurveyStore, Store {
   }
 
   @override
+  void saveSurveyToHive(Survey s) {
+    final _$actionInfo = _$_SurveyStoreActionController.startAction(
+        name: '_SurveyStore.saveSurveyToHive');
+    try {
+      return super.saveSurveyToHive(s);
+    } finally {
+      _$_SurveyStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 error: ${error},
@@ -1037,6 +1091,7 @@ coalUsage: ${coalUsage},
 electricityUsage: ${electricityUsage},
 otherFuelUsage: ${otherFuelUsage},
 otherFuelName: ${otherFuelName},
+pushStatus: ${pushStatus},
 showStopUsageReason: ${showStopUsageReason}
     ''';
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_survey_demo/ui/pages/loginpage.dart';
 import 'package:flutter_survey_demo/ui/pages/survey_first_page.dart';
+import 'package:flutter_survey_demo/ui/pages/unsynced_surveys_page.dart';
 import '../store/homepage_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -29,7 +30,9 @@ class _HomePageState extends State<HomePage> {
         title: Text('Survey Report'),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(icon: Icon(Icons.sync), onPressed: () {}),
+          IconButton(icon: Icon(Icons.history), onPressed: () {
+            Navigator.pushNamed(context, UnsyncedSurveyPage.routeName);
+          }),
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {

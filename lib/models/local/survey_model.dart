@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'dart:io';
 part 'survey_model.g.dart';
 
 @HiveType(typeId: 2)
@@ -79,6 +80,46 @@ class Survey extends HiveObject{
     this.otherFuelName.toString()+"\n";
   }
 
+  Map<String,dynamic>get toOnlineMap{
+    var map = {
+      'name': name,
+      'address':address,
+      'householdSize':householdSize,
+      'adultCount':adultCount,
+      'childCount':childCount,
+      'phoneNumber':phoneNumber,
+      'stoveId':stoveId,
+      'stoveImage': stoveImage,
+      'dateOfInstallation':dateOfInstallation,
+      'usesProjectCookstove':usesProjectCookstove,
+      'stopUsageReason':stopUsageReason,
+      'usesProjectRegularly':usesProjectRegularly,
+      'stoveCondition':stoveCondition,
+      'numberOfProjectMeals':numberOfProjectMeals,
+      'usesTraditionalCookstove':usesTraditionalCookstove,
+      'numberOfTraditionalMeals':numberOfTraditionalMeals,
+      'usesOtherStove':usesOtherStove,
+      'numberOfOtherMeals':numberOfOtherMeals,
+      'numberOfDaysPerWeek':numberOfDaysPerWeek,
+      'photoOfOtherStove':photoOfOtherStove,
+      'usesCharcoal':usesCharcoal,
+      'usesWood':usesWood,
+      'usesKerosene':usesKerosene,
+      'usesLpg':usesLpg,
+      'usesCoal':usesCoal,
+      'usesElectricity':usesElectricity,
+      'usesOtherFuel':usesOtherFuel,
+      'charcoalUsage':charcoalUsage,
+      'woodUsage':woodUsage,
+      'lpgUsage':lpgUsage,
+      'keroseneUsage':keroseneUsage,
+      'coalUsage':coalUsage,
+      'electricityUsage':electricityUsage,
+      'otherFuelUsage':otherFuelUsage,
+    };
+    print(map);
+    return map;
+  }
   @HiveField(0)
   String name='';
 
@@ -101,7 +142,7 @@ class Survey extends HiveObject{
   String stoveId='';
 
   @HiveField(7)
-   String? stoveImage;
+  String? stoveImage;
 
   @HiveField(8)
    String? dateOfInstallation;
